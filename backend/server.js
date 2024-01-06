@@ -1,6 +1,15 @@
-require('dotenv').config()
-const express = require('express')
-const workoutRoutes = require("./routes/workouts")
+const express = require("express");
+const connectDB = require("./config/db");
+const dotenv = require("dotenv");
+// const userRoutes = require("./routes/userRoutes");
+// const chatRoutes = require("./routes/chatRoutes");
+// const messageRoutes = require("./routes/messageRoutes");
+
+dotenv.config()
+
+connectDB();
+
+const PORT = process.env.PORT || 5000
 
 const app = express()
 
@@ -13,11 +22,11 @@ app.use((req,res,next) => {
 })
 
 // routes
-app.use('api/workouts', workoutRoutes)
+// app.use('api/workouts', workoutRoutes)
 
 // listen
-app.listen(process.env.PORT, () => {
-    console.log(`listening on port ${process.env.PORT}`)
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`)
 })
 
 

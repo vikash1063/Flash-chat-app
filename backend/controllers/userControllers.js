@@ -5,25 +5,26 @@ const generateToken = require("../config/generateToken");
 //@description     Get or Search all users
 //@route           GET /api/user?search=
 //@access          Public
-// const allUsers = asyncHandler(async (req, res) => {
-//   const keyword = req.query.search
-//     ? {
-//         $or: [
-//           { name: { $regex: req.query.search, $options: "i" } },
-//           { email: { $regex: req.query.search, $options: "i" } },
-//         ],
-//       }
-//     : {};
+const allUsers = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
 
-//   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-//   res.send(users);
-// });
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+});
 
 //@description     Register new user or signin
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, phone, pic } = req.body;
+  console.log(name,email,phone,pic)
 
   if (!name || !email || !phone) {
     res.status(400);

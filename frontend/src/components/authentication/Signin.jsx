@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import FormField from '../FormField'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 import { useNavigate } from "react-router";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const Signin = () => {
 
@@ -15,9 +17,41 @@ const Signin = () => {
   const [phone, setPhone] = useState();
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
+  // const [data,setData] = useState();
+  var v;
+
+  function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
+
+  const handleCredentialResponse =  (response) => {
+    // console.log(Response)
+
+    console.log(JSON.stringify(parseJwt(response.credential)));
+    v = (parseJwt(response.credential))
+    console.log(v.email)
+    setEmail((v.email))
+  }
+
+  const demo = () => {
+    console.log(email, name, phone)
+
+    
+  }
   
 
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    console.log(email.stringify)
+    console.log(name.type)
+
+
     setLoading(true);
     if (!name || !email || !phone ) {
       
@@ -25,6 +59,8 @@ const Signin = () => {
         autoClose: 5000,
         position: 'bottom-center'
       });
+      console.log("warning")
+
       setLoading(false);
       return;
     }
@@ -52,6 +88,7 @@ const Signin = () => {
         autoClose: 5000,
         position: 'bottom-center'
       });
+      console.log("successs")
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate('/chat');
@@ -62,6 +99,8 @@ const Signin = () => {
         position: 'bottom-center'
       });
       setLoading(false);
+      console.log("error", error)
+
     }
   };
 
@@ -110,6 +149,18 @@ const Signin = () => {
       return;
     }
   };
+  // useEffect(() => {
+  //   // handleCredentialResponse();
+  //   console.log(data)
+  //   if (data) {
+  //     // v = (parseJwt(data.credential))
+  //     // console.log(v.email)
+  //     // setEmail(v.email)
+  //     // submitHandler()
+  //     handleCredentialResponse();
+
+  //   }
+  // }, [data]);
   return (
     <div>
       <form className='w-full mt-[65px] flex flex-col gap-[30px]'>
@@ -153,7 +204,7 @@ const Signin = () => {
 
         </label>
 
-        {loading && <input
+        {/* {loading && <input
           type="submit"
           className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
           value="Loading..."
@@ -164,7 +215,32 @@ const Signin = () => {
           className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
           value="Sign Up"
           onClick={submitHandler}
-        />}
+        />} */}
+
+        <div>
+          <GoogleLogin
+            onSuccess={(Response) => {
+              console.log(Response);
+              // setData(Response)
+              handleCredentialResponse(Response)
+
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+        </div>
+
+        {email && <div>
+          <h2>connected to email</h2>
+          <input
+            type="submit"
+            className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
+            value="Sign Up"
+            onClick={submitHandler}
+          />
+          </div>}
+          <ToastContainer/>
 
       </form>
     </div>

@@ -12,15 +12,14 @@ const Signin = () => {
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
-  const [confirmpassword, setConfirmpassword] = useState();
-  const [password, setPassword] = useState();
+  const [phone, setPhone] = useState();
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
   
 
   const submitHandler = async () => {
     setLoading(true);
-    if (!name || !email || !password || !confirmpassword) {
+    if (!name || !email || !phone ) {
       
       toast.warning("Please Fill all the Fields", {
         autoClose: 5000,
@@ -29,14 +28,8 @@ const Signin = () => {
       setLoading(false);
       return;
     }
-    if (password !== confirmpassword) {
-      toast.warning("Passwords do not match", {
-        autoClose: 5000,
-        position: 'bottom-center'
-      });
-      return;
-    }
-    console.log(name, email, password, pic);
+    
+    console.log(name, email, phone, pic);
     try {
       const config = {
         headers: {
@@ -48,7 +41,7 @@ const Signin = () => {
         {
           name,
           email,
-          password,
+          phone,
           pic,
         },
         config
@@ -61,7 +54,7 @@ const Signin = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      navigate.push("/chats");
+      navigate('/chat');
     } catch (error) {
       toast.error("Error Occured!", {
         data: error.response.data.message,
@@ -94,7 +87,7 @@ const Signin = () => {
       data.append("file", pics);
       data.append("upload_preset", "chat-app");
       data.append("cloud_name", "piyushproj");
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+      fetch("https://api.cloudinary.com/v1_1/dkymcjwej/image/upload", {
         method: "post",
         body: data,
       })
@@ -139,19 +132,13 @@ const Signin = () => {
         />
 
         <FormField
-          labelName="Password"
-          placeHolder="Enter your Password"
-          inputType="password"
-          handleChange={(e) => setPassword(e.target.value)}
+          labelName="Phone Number"
+          placeHolder="Enter your ph. no."
+          inputType="tel"
+          handleChange={(e) => setPhone(e.target.value)}
 
         />
-        <FormField
-          labelName="Confirm Password"
-          placeHolder="Confirm Password"
-          inputType="password"
-          handleChange={(e) => setConfirmpassword(e.target.value)}
-
-        />
+        
 
         <label className="flex-1 w-full flex flex-col">
 
@@ -166,14 +153,18 @@ const Signin = () => {
 
         </label>
 
-
-        <input
+        {loading && <input
+          type="submit"
+          className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
+          value="Loading..."
+          // onClick={submitHandler}
+        />}
+        {!loading && <input
           type="submit"
           className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
           value="Sign Up"
           onClick={submitHandler}
-          isLoading={loading}
-        />
+        />}
 
       </form>
     </div>

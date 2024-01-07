@@ -18,9 +18,7 @@ app.get('/', () => {
 
 // middleware
 app.use(express.json())
-
 app.use('/api/user', userRoutes)
-
 app.use(notFound)
 app.use(errorHandler)
 

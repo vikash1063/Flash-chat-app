@@ -3,8 +3,7 @@ const connectDB = require("./config/db");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
-// const chatRoutes = require("./routes/chatRoutes");
-// const messageRoutes = require("./routes/messageRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 const {notFound, errorHandler} = require("./middleware/errorMiddleware")
 
 dotenv.config()
@@ -21,6 +20,7 @@ app.get('/', () => {
 app.use(express.json())
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
+app.use("/api/message", messageRoutes);
 app.use(notFound)
 app.use(errorHandler)
 

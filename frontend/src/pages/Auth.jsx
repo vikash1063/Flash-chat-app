@@ -1,10 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Login from '../components/authentication/Login'
 import Signin from '../components/authentication/Signin'
+import { useNavigate } from 'react-router-dom'
 
 const Auth = () => {
     const [isSignin, setIsSignin] = useState(true);
     const [ isLogin, setIsLogin] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("userInfo"));
+
+        if (user) navigate.push("/chats");
+    }, []);
 
     const handleSignin = () => {
         setIsSignin(true);

@@ -41,7 +41,6 @@ const accessChat = asyncHandler(async (req, res) => {
             const createdChat = await Chat.create(chatData);
             const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
                 "users",
-                "-password"
             );
             res.status(200).json(FullChat);
         } catch (error) {
@@ -57,8 +56,8 @@ const accessChat = asyncHandler(async (req, res) => {
 const fetchChats = asyncHandler(async (req, res) => {
     try {
         Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
-            .populate("users", "-password")
-            .populate("groupAdmin", "-password")
+            .populate("users")
+            .populate("groupAdmin")
             .populate("latestMessage")
             .sort({ updatedAt: -1 })
             .then(async (results) => {
@@ -101,8 +100,8 @@ const createGroupChat = asyncHandler(async (req, res) => {
         });
 
         const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
-            .populate("users", "-password")
-            .populate("groupAdmin", "-password");
+            .populate("users")
+            .populate("groupAdmin");
 
         res.status(200).json(fullGroupChat);
     } catch (error) {
@@ -126,8 +125,8 @@ const renameGroup = asyncHandler(async (req, res) => {
             new: true,
         }
     )
-        .populate("users", "-password")
-        .populate("groupAdmin", "-password");
+        .populate("users")
+        .populate("groupAdmin");
 
     if (!updatedChat) {
         res.status(404);
@@ -154,8 +153,8 @@ const removeFromGroup = asyncHandler(async (req, res) => {
             new: true,
         }
     )
-        .populate("users", "-password")
-        .populate("groupAdmin", "-password");
+        .populate("users")
+        .populate("groupAdmin");
 
     if (!removed) {
         res.status(404);
@@ -182,8 +181,8 @@ const addToGroup = asyncHandler(async (req, res) => {
             new: true,
         }
     )
-        .populate("users", "-password")
-        .populate("groupAdmin", "-password");
+        .populate("users")
+        .populate("groupAdmin");
 
     if (!added) {
         res.status(404);

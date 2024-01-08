@@ -8,11 +8,11 @@ const Auth = () => {
     const [ isLogin, setIsLogin] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("userInfo"));
+    // useEffect(() => {
+    //     const user = JSON.parse(localStorage.getItem("userInfo"));
 
-        if (user) navigate.push("/chats");
-    }, []);
+    //     if (user) navigate("/chat");
+    // }, []);
 
     const handleSignin = () => {
         setIsSignin(true);

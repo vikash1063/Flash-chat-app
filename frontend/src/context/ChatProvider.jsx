@@ -15,7 +15,7 @@ const ChatProvider = ({ children }) => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
         setUser(userInfo);
 
-        if (!userInfo) navigate.push("/");
+        if (!userInfo) navigate("/auth");
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

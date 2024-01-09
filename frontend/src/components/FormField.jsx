@@ -15,7 +15,7 @@ const FormField = ({ labelName, name, PlaceHolder, inputType, value, handleChang
                 type={inputType}
                 step="0.1"
                 placeholder={PlaceHolder}
-                className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#8f939f] rounded-[10px] sm:min-w-[300px]"
+                className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#cecef7] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#e9ebee] rounded-[10px] sm:min-w-[300px]"
 
             />
 

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { GoogleLogin } from "@react-oauth/google";
 
 
-const Signin = () => {
+const Signup = () => {
 
 
   const navigate = useNavigate();
@@ -125,7 +125,7 @@ const Signin = () => {
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "piyushproj");
+      data.append("cloud_name", "seemern");
       fetch("https://api.cloudinary.com/v1_1/dkymcjwej/image/upload", {
         method: "post",
         body: data,
@@ -174,13 +174,13 @@ const Signin = () => {
         />
 
 
-        <FormField
+        {/* <FormField
           labelName="Email"
           placeHolder="Enter your Email address"
           inputType="email"
           handleChange={(e) => setEmail(e.target.value)}
 
-        />
+        /> */}
 
         <FormField
           labelName="Phone Number"
@@ -232,10 +232,10 @@ const Signin = () => {
         </div>
 
         {email && <div>
-          <h2>connected to email</h2>
+          <h2 className='text-white'>connected to email</h2>
           <input
             type="submit"
-            className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
+            className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer mt-3"}
             value="Sign Up"
             onClick={submitHandler}
           />
@@ -247,4 +247,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default Signup

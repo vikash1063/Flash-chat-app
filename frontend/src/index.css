@@ -4,11 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
-.linear-gradient {
+.App {
+  background-image: url('./images/windows-11-dark-mode-abstract-background-black-background-3840x2400-8710.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* .linear-gradient {
   background: linear-gradient(179.14deg,
       rgba(32, 18, 63, 0) -7.14%,
       #000000 87.01%);
-}
+} */
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;

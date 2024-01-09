@@ -97,11 +97,11 @@ const Login = () => {
         </div>
 
         {email && <div>
-          <h2>connected to email</h2>
+          <h2 className='text-white'>connected to email</h2>
           <input
             type="submit"
-            className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer"}
-            value="Login"
+            className={"font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] px-4 rounded-[10px] bg-[#1dc071] cursor-pointer mt-3"}
+            value="Sign Up"
             onClick={submitHandler}
           />
         </div>}

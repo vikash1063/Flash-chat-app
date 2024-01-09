@@ -85,8 +85,31 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+const changePic = asyncHandler(async (req, res) => {
+  const { userId, pic} = req.body;
+
+  const updatedPic = await User.findByIdAndUpdate(
+    userId,
+    {
+      pic: pic,
+    },
+    {
+      new: true,
+    }
+  )
+
+  if (!updatedPic) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(updatedPic);
+  }
+});
+
+
 module.exports = { 
     allUsers,
     registerUser,
-    authUser 
+    authUser,
+    changePic
 };

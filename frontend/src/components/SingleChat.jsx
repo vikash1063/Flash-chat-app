@@ -11,14 +11,19 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import React from "react";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../context/ChatProvider";
+import { BsEmojiSmile } from "react-icons/bs";
+import { AiOutlinePlus } from "react-icons/ai";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 const ENDPOINT = "http://localhost:4000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
-const SingleChat = ({ fetchAgain, setFetchAgain }) => {     
+const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState("");
@@ -26,6 +31,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const [typing, setTyping] = useState(false);
     const [istyping, setIsTyping] = useState(false);
     const toast = useToast();
+
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
+    const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
+
+    const [showEmoji, setShowEmoji] = useState(false);
+    const [text, setText] = useState("");
+    
+    const addEmoji = (e) => {
+        const sym = e.unified.split("_");
+        const codeArray = [];
+        sym.forEach((el) => codeArray.push("0x" + el));
+        let emoji = String.fromCodePoint(...codeArray);
+        setNewMessage(newMessage + emoji);
+    };
+
 
     const defaultOptions = {
         loop: true,
@@ -71,6 +96,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     };
 
     const sendMessage = async (event) => {
+        
         if (event.key === "Enter" && newMessage) {
             socket.emit("stop typing", selectedChat._id);
             try {
@@ -103,6 +129,40 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             }
         }
     };
+
+    const sendtranscriptMessage = async (message) => {
+        if (message) {
+            socket.emit("stop typing", selectedChat._id);
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                };
+                const { data } = await axios.post(
+                    "/api/message",
+                    {
+                        content: message,
+                        chatId: selectedChat,
+                    },
+                    config
+                );
+                socket.emit("new message", data);
+                setMessages([...messages, data]);
+                resetTranscript();
+            } catch (error) {
+                toast({
+                    title: "Error Occured!",
+                    description: "Failed to send the Message",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom",
+                });
+            }
+        }
+    }
 
     useEffect(() => {
         socket = io(ENDPOINT);
@@ -239,14 +299,49 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             ) : (
                                 <></>
                             )}
-                            <Input
-                                variant="filled"
-                                bg="#E0E0E0"
-                                placeholder="Enter a message.."
-                                value={newMessage}
-                                onChange={typingHandler}
-                            />
+
+                            <div className="w-full flex items-end p-2 bg-todo rounded-sm relative">
+                                <Input
+                                    value={newMessage || transcript}
+                                    onChange={typingHandler}
+                                    placeholder="write your text"
+                                    className="w-full bg-transparent outline-none resize-none text-sm"
+                                    cols="30"
+                                    rows="2"
+                                ></Input>
+
+                                <span
+                                    onClick={() => setShowEmoji(!showEmoji)}
+                                    className="cursor-pointer hover:text-slate-300"
+                                >
+                                    <BsEmojiSmile />
+                                </span>
+
+                                {showEmoji && (
+                                    <div className="absolute right-6">
+                                        <Picker
+                                            data={data}
+                                            emojiSize={20}
+                                            emojiButtonSize={28}
+                                            onEmojiSelect={addEmoji}
+                                            maxFrequentRows={0}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
                         </FormControl>
+                        {browserSupportsSpeechRecognition && <div display="flex flex-row">
+                            <p>Microphone: {listening ? 'on' : 'off'}</p>
+                            <button className="bg-gray-300 mx-2 p-1 rounded-md" onClick={startListening}>Start</button>
+                            <button className="bg-gray-300 mx-2 p-1 rounded-md" onClick={SpeechRecognition.stopListening}>Stop</button>
+                            <input
+                            type="button"
+                            value="send"
+                            className=" hover:bg-slate-600 bg-gray-300 m-2 p-1 rounded-md"
+                            onClick={() => sendtranscriptMessage(transcript)} />
+                            <p>{transcript}</p>
+                        </div>}
                     </Box>
                 </>
             ) : (

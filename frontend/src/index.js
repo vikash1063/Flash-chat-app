@@ -13,7 +13,7 @@ root.render(
   <BrowserRouter>
   <ChatProvider>
   <ChakraProvider>
-    <GoogleOAuthProvider clientId="412366728381-bus9ojgkuev734ckit700vst1vfvaola.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="412366728381-bus9ojgkuev734ckit700vst1vfvaola.apps.googleusercontent.com">
       <App />
     </GoogleOAuthProvider>
   </ChakraProvider>

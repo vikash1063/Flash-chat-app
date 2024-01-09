@@ -4,7 +4,7 @@ import { ChatState } from '../context/ChatProvider';
 import { useToast } from "@chakra-ui/react";
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const OPENAI_API_KEY = "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"; // Replace with your actual API key
+const OPENAI_API_KEY = "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"; // Replace with your actual API key
 
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +46,7 @@ const Profile = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer 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',
       },
       body: JSON.stringify({
         prompt,

@@ -43,7 +43,7 @@ We have used [Google OAuth](https://developers.google.com/identity/protocols/oau
 For the real-time communication between users, [Socket.IO](https://socket.io/) is used.
 
 
-## Features
+## Features->
 
 ### Chat History and Notifications
 The chats of the users are stored which the user can access later from the site on the chat interface. There is also a notification feature that helps user to check if there are any unread conversations.

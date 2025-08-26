@@ -37,10 +37,10 @@ The styling and design of the site is created with the help of [Chakra UI](https
 The backend is handled by NodeJS, using Express framework, while the database for the web-app is handled by MongoDB.
 
 ### Authorization
-We have used [Google OAuth](https://developers.google.com/identity/protocols/oauth2) for handling the login/signup of our app. 
+Implemented [Google OAuth](https://developers.google.com/identity/protocols/oauth2) for user authentication, enabling secure and seamless login/signup experience. 
 
 ### Real-time communication
-For the real-time communication between users, [Socket.IO](https://socket.io/) is used.
+Utilized [Socket.IO](https://socket.io/) to implement real-time, bidirectional communication, enhancing user interaction.
 
 
 ## Features->
@@ -55,7 +55,7 @@ An AI image generator for the user's profile picture that provides the user with
 Users can create a group chat by adding other users via their emails.
 
 ### Voice-to-Text Feature
-A voice-to-text feature in the chat app that uses [react-speech-recognition](https://www.npmjs.com/package/react-speech-recognition?activeTab=readme) package on the chat screen to convert the comments of the user to syllables.
+Integrated [react-speech-recognition](https://www.npmjs.com/package/react-speech-recognition?activeTab=readme) to add voice-to-text feature, enhancing accessibility and hands-free interaction. 
 
 ### Emojis
 Users are also provided emojis for communication, adding an extra dimension of fun. The emoji feature is augmented by using [emoji-mart](https://www.npmjs.com/package/emoji-mart) package.
